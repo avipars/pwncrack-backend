@@ -378,7 +378,7 @@ app.get('/download_potfile', (req, res) => {
         const userPotfilePath = path.join(RESULTS_DIR, `${userEmail}.potfile`);
 
         if (fs.existsSync(userPotfilePath)) {
-            fs.readFile(userPotfilePath, 'utf-8', (err, data) => {
+            fs.readFile(userPotfilePath, 'utf8', (err, data) => {
                 if (err) {
                     return res.status(500).json({ error: 'Error reading the potfile.' });
                 }
@@ -427,7 +427,7 @@ app.get('/download_potfile_script', (req, res) => {
         console.log(`Looking for potfile at: ${userPotfilePath}`); // Debugging information
 
         if (fs.existsSync(userPotfilePath)) {
-            fs.readFile(userPotfilePath, 'utf-8', (err, data) => {
+            fs.readFile(userPotfilePath, 'utf8', (err, data) => {
                 if (err) {
                     return res.status(500).json({ error: 'Error reading the potfile.' });
                 }
@@ -511,7 +511,7 @@ app.get('/download/:file', (req, res) => {
 
 const removeIncorrectPassword = (potfilePath, ssid, password) => {
   if (fs.existsSync(potfilePath)) {
-    const data = fs.readFileSync(potfilePath, 'utf-8');
+    const data = fs.readFileSync(potfilePath, 'utf8');
     const lines = data.split('\n');
     const filteredLines = lines.filter(line => !line.includes(`${ssid}:${password}`));
     fs.writeFileSync(potfilePath, filteredLines.join('\n'));
@@ -1572,7 +1572,7 @@ app.get('/total_hashrate', (req, res) => {
 
 // Function to extract passwords from boss.potfile and write to cracked.txt without duplicates
 const generateCrackedPasswordsFile = () => {
-  fs.readFile(bossPotfilePath, 'utf-8', (err, data) => {
+  fs.readFile(bossPotfilePath, 'utf8', (err, data) => {
     if (err) {
       console.error("Error reading boss.potfile:", err);
       return;
@@ -1587,7 +1587,7 @@ const generateCrackedPasswordsFile = () => {
     }).filter(password => password !== null));
 
     const crackedFilePath = path.join(RESULTS_DIR, 'cracked.txt');
-    fs.readFile(crackedFilePath, 'utf-8', (err, existingData) => {
+    fs.readFile(crackedFilePath, 'utf8', (err, existingData) => {
       if (err && err.code !== 'ENOENT') {
         console.error("Error reading cracked.txt:", err);
         return;
@@ -1884,7 +1884,7 @@ app.post('/redeem-rank', (req, res) => {
   const validKeysPath = path.join(__dirname, 'rank_keys.txt');
   let keys;
   try {
-    keys = fs.readFileSync(validKeysPath, 'utf-8')
+    keys = fs.readFileSync(validKeysPath, 'utf8')
       .split('\n')
       .map(line => line.trim())
       .filter(line => line);
@@ -2098,7 +2098,7 @@ const sendRankKeysToTopCrackers = () => {
   const validKeysPath = path.join(__dirname, 'rank_keys.txt');
   let keys;
   try {
-    keys = fs.readFileSync(validKeysPath, 'utf-8')
+    keys = fs.readFileSync(validKeysPath, 'utf8')
       .split('\n')
       .map(line => line.trim())
       .filter(line => line);
